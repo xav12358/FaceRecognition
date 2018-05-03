@@ -47,20 +47,24 @@ def camera_recog():
         rects, landmarks = face_detect.detect_face(frame,80);#min face size is set to 80x80
         aligns = []
         positions = []
+        print("ooooooooooooooooooooooooooooooooooooo")
+        print(rects)
+        print("ooooooooooooooooooooooooooooooooooooo")
+
         for (i, rect) in enumerate(rects):
             aligned_face, face_pos = aligner.align(160,frame,landmarks[i])
             aligns.append(aligned_face)
             positions.append(face_pos)
-        print("///////////////////////")
-        print(aligns)
-        print(len(aligns))
-        print("///////////////////////")
+        # print("///////////////////////")
+        # print(aligns)
+        # print(len(aligns))
+        # print("///////////////////////")
         if( len(aligns) > 0):
             features_arr = extract_feature.get_features(aligns)
             recog_data = findPeople(features_arr,positions);
             for (i,rect) in enumerate(rects):
                 cv2.rectangle(frame,(rect[0],rect[1]),(rect[0] + rect[2],rect[1]+rect[3]),(255,0,0)) #draw bounding box for the face
-                cv2.putText(frame,recog_data[i][0]+" - "+str(recog_data[i][1])+"%",(rect[0],rect[1]),cv2.FONT_HERSHEY_SIMPLEX,1,(255,255,255),1,cv2.LINE_AA)
+                cv2.putText(frame,recog_data[i][0]+" - " + str(recog_data[i][1])+"%",(rect[0],rect[1]),cv2.FONT_HERSHEY_SIMPLEX,1,(255,255,255),1,cv2.LINE_AA)
 
         cv2.imshow("Frame",frame)
         key = cv2.waitKey(1) & 0xFF
@@ -144,13 +148,13 @@ def create_manual_data():
 
 
 
-save_part = False
+save_part = True
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--mode", type=str, help="Run camera recognition", default="camera")
     args = parser.parse_args(sys.argv[1:]);
     FRGraph = FaceRecGraph(save_part=save_part);
     aligner = AlignCustom();
-    extract_feature = FaceFeature(FRGraph, save_part=save_part)
+    # extract_feature = FaceFeature(FRGraph, save_part=save_part)
     face_detect = MTCNNDetect(FRGraph, scale_factor=2, save_part= save_part); #scale_factor, rescales image for faster detection
-    main(args);
+    # main(args);

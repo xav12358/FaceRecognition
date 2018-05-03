@@ -28,6 +28,12 @@ class FaceFeature(object):
                 saver = tf.train.Saver() #saver load pretrain model
                 saver.restore(self.sess, model_path)
                 print("Model loaded")
+
+
+                writer = tf.summary.FileWriter("/tmp/model4/FaceFeature/", self.sess.graph)
+                saver = tf.train.Saver() #saver load pretrain model
+                save_path = tf.train.Saver().save(self.sess, "/tmp/model4/FaceFeature/model.ckpt")
+                print("Model saved in path: %s" % save_path)
         else:
             with face_rec_graph.graph.as_default():
                 self.sess = tf.Session() #face_rec_graph.sess #
