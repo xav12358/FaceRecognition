@@ -7,9 +7,8 @@ import tensorflow as tf
 from architecture import inception_resnet_v1 as resnet
 import numpy as np
 
-save_part = False
 class FaceFeature(object):
-    def __init__(self, face_rec_graph, model_path = 'models/model-20170512-110547.ckpt-250000'):
+    def __init__(self, face_rec_graph, save_part, model_path = 'models/model-20170512-110547.ckpt-250000'):
         '''
 
         :param face_rec_sess: FaceRecSession object

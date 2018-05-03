@@ -9,9 +9,8 @@ import tensorflow as tf
 import cv2
 import os
 
-save_part = True
 class MTCNNDetect(object):
-    def __init__(self, face_rec_graph, model_path = "models", threshold = [0.6, 0.7, 0.7], factor = 0.709, scale_factor = 1):
+    def __init__(self, face_rec_graph,save_part,  model_path = "models", threshold = [0.6, 0.7, 0.7], factor = 0.709, scale_factor = 1, ):
         '''
         :param face_rec_sess: FaceRecSession
         :param threshold: detection threshold
