@@ -55,10 +55,10 @@ def camera_recog():
             aligned_face, face_pos = aligner.align(160,frame,landmarks[i])
             aligns.append(aligned_face)
             positions.append(face_pos)
-        # print("///////////////////////")
-        # print(aligns)
-        # print(len(aligns))
-        # print("///////////////////////")
+        print("///////////////////////")
+        print(aligns)
+        print(len(aligns))
+        print("///////////////////////")
         if( len(aligns) > 0):
             features_arr = extract_feature.get_features(aligns)
             recog_data = findPeople(features_arr,positions);
@@ -148,13 +148,13 @@ def create_manual_data():
 
 
 
-save_part = True
+save_part = False
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--mode", type=str, help="Run camera recognition", default="camera")
     args = parser.parse_args(sys.argv[1:]);
     FRGraph = FaceRecGraph(save_part=save_part);
     aligner = AlignCustom();
-    # extract_feature = FaceFeature(FRGraph, save_part=save_part)
+    extract_feature = FaceFeature(FRGraph, save_part=save_part)
     face_detect = MTCNNDetect(FRGraph, scale_factor=2, save_part= save_part); #scale_factor, rescales image for faster detection
-    # main(args);
+    main(args);

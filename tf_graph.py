@@ -18,8 +18,8 @@ class FaceRecGraph(object):
 
         if save_part == True:
             self.graph = tf.Graph();
-        else:
-            with  tf.Session() as self.sess:
+        # else:
+            # with  tf.Session() as self.sess:
                 # new_saver = tf.train.import_meta_graph(model_path + '.meta')
                 # # new_saver.restore(self.sess, model_path)
                 # new_saver.restore(self.sess,tf.train.latest_checkpoint(model_path_p))

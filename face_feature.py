@@ -7,6 +7,8 @@ import tensorflow as tf
 from architecture import inception_resnet_v1 as resnet
 import numpy as np
 
+scope_variable = 'onet/conv1/weights:0'
+
 class FaceFeature(object):
     def __init__(self, face_rec_graph, save_part, model_path = 'models/model-20170512-110547.ckpt-250000'):
         '''
@@ -35,10 +37,29 @@ class FaceFeature(object):
                 save_path = tf.train.Saver().save(self.sess, "/tmp/model4/FaceFeature/model.ckpt")
                 print("Model saved in path: %s" % save_path)
         else:
-            with face_rec_graph.graph.as_default():
-                self.sess = tf.Session() #face_rec_graph.sess #
+                self.sess = tf.Session()
+                model_path = "/tmp/model4/FaceFeature/model.ckpt"
+                model_path_p = "/tmp/model4/FaceFeature/"
+                # self.x = tf.placeholder('float', [None,160,160,3]); #default input for the NN is 160x160x3
                 self.sess.run(tf.global_variables_initializer())
-                self.x = tf.placeholder('float', [None,160,160,3]); #default input for the NN is 160x160x3
+                new_saver = tf.train.import_meta_graph(model_path + '.meta')
+                new_saver.restore(self.sess,tf.train.latest_checkpoint(model_path_p))
+
+
+                print("///////////////////")
+                # for v in tf.trainable_variables():
+                #     # if v.name == scope_variable:
+                #         print(v)
+                #         print("/******************/")
+                #         print(self.sess.run(v))
+
+
+                # for v in self.sess.graph.get_operations():
+                #         print(v)
+                #         print("/******************/")
+                #         # print(self.sess.run(v))
+
+                # print(zzz)
 
 
 
@@ -47,10 +68,13 @@ class FaceFeature(object):
         print(input_imgs)
         images = load_data_list(input_imgs,160)
 
+        images = images.astype(float)
+
         print("images.shape")
+        print(images)
         print(images.shape)
         # return self.sess.run(self.embeddings, feed_dict = {self.x : images})
-        return self.sess.run(('l2_normalize:0'), feed_dict = {self.x : images})
+        return self.sess.run(('l2_normalize:0'), feed_dict = {"Placeholder:0" : images})
 
 
 
